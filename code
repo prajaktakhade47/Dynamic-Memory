@@ -1,0 +1,98 @@
+#include <iostream>
+using namespace std;
+
+void swapByReference(int &x, int &y){
+    int temp = x;
+    x = y;
+    y = temp;
+}
+void swapByPointer(int *x, int *y){
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+class Book{
+    int id;
+    float price;
+
+public:
+    Book(int i, float p){
+        id = i;
+        price = p;
+    }
+
+    void display(){
+        cout << "Book ID: " << id << ", Price: " << price << endl;
+    }
+};
+
+int main()
+{
+    // ---------- PART A: References and Pointers ----------
+    cout << "===== PART A: REFERENCES AND POINTERS =====" << endl;
+
+    int p = 15, q = 30;
+    int &ref = p;   
+    int *ptr = &q;  
+
+    cout << "p = " << p << ", ref = " << ref << endl;
+    cout << "Address of p   : " << &p << endl;
+    cout << "Address of ref : " << &ref << endl;
+    cout << "q = " << q << ", *ptr = " << *ptr << endl;
+    cout << "ptr holds address: " << ptr << endl;
+
+    ref = 99;    
+    *ptr = 77;   
+    cout << "\nAfter ref = 99 and *ptr = 77:" << endl;
+    cout << "p = " << p << ", q = " << q << endl;
+
+    int a, b;
+    cout << "\nEnter two numbers: ";
+    cin >> a >> b;
+
+    int x = a, y = b;
+    swapByReference(x, y);
+    cout << "Swap by reference: x = " << x << ", y = " << y << endl;
+
+    x = a;
+    y = b;
+    swapByPointer(&x, &y);
+    cout << "Swap by pointer  : x = " << x << ", y = " << y << endl;
+
+    //---------- new and delete ----------
+    cout << "\n===== PART B: NEW AND DELETE OPERATORS =====" << endl;
+
+    int *num = new int(42);
+    cout << "Dynamic integer value: " << *num << endl;
+    delete num;
+
+    // 2. Array
+    int n;
+    cout << "\nEnter number of items: ";
+    cin >> n;
+
+    float *prices = new float[n];
+    float total = 0, highest;
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter price of item " << i + 1 << ": ";
+        cin >> prices[i];
+        total += prices[i];
+        if (i == 0 || prices[i] > highest)
+            highest = prices[i];
+    }
+    cout << "Total   = " << total << endl;
+    cout << "Average = " << total / n << endl;
+    cout << "Highest = " << highest << endl;
+    delete[] prices;
+
+    // 3. Object
+    Book *b1 = new Book(101, 499.5);
+    cout << "\nDynamic object -> ";
+    b1->display();
+    delete b1;
+
+    cout << "Memory freed using delete and delete[]." << endl;
+    return 0;
+}
